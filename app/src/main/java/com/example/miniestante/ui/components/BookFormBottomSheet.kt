@@ -1,0 +1,289 @@
+package com.example.miniestante.ui.components
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.miniestante.data.model.Book
+import com.example.miniestante.data.model.BookRating
+import com.example.miniestante.data.model.BookStatus
+import com.example.miniestante.ui.theme.MiniEstanteTheme
+import java.util.UUID
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BookFormBottomSheet(
+    editingBook: Book?,
+    onDismiss: () -> Unit,
+    onSave: (Book) -> Unit,
+    sheetState: SheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+) {
+    var title by remember(editingBook) { mutableStateOf(editingBook?.title ?: "") }
+    var author by remember(editingBook) { mutableStateOf(editingBook?.author ?: "") }
+    var startDate by remember(editingBook) { mutableStateOf(editingBook?.startDate ?: "") }
+    var endDate by remember(editingBook) { mutableStateOf(editingBook?.endDate ?: "") }
+    var status by remember(editingBook) { mutableStateOf(editingBook?.status ?: BookStatus.IN_PROGRESS) }
+    var rating by remember(editingBook) { mutableStateOf(editingBook?.rating ?: BookRating.WORTH_VOTE) }
+
+    val isFormValid = title.isNotBlank() && author.isNotBlank()
+
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
+        containerColor = MaterialTheme.colorScheme.background,
+        dragHandle = null
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 24.dp)
+                .navigationBarsPadding()
+                .imePadding()
+        ) {
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Header
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = if (editingBook == null) "Novo livro" else "Editar livro",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                Row(modifier = Modifier.weight(1f), horizontalArrangement = Arrangement.End) {
+                    IconButton(onClick = onDismiss) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Fechar",
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Title field
+            FormLabel("Título")
+            Spacer(modifier = Modifier.height(6.dp))
+            OutlinedTextField(
+                value = title,
+                onValueChange = { title = it },
+                placeholder = { Text("Nome do livro", style = MaterialTheme.typography.bodyMedium) },
+                singleLine = true,
+                shape = RoundedCornerShape(12.dp),
+                colors = formFieldColors(),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Author field
+            FormLabel("Autor")
+            Spacer(modifier = Modifier.height(6.dp))
+            OutlinedTextField(
+                value = author,
+                onValueChange = { author = it },
+                placeholder = { Text("Nome do autor", style = MaterialTheme.typography.bodyMedium) },
+                singleLine = true,
+                shape = RoundedCornerShape(12.dp),
+                colors = formFieldColors(),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Date fields
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                DateInputField(
+                    label = "Início",
+                    value = startDate,
+                    onDateSelected = { startDate = it },
+                    modifier = Modifier.weight(1f)
+                )
+                DateInputField(
+                    label = "Fim",
+                    value = endDate,
+                    onDateSelected = { endDate = it },
+                    modifier = Modifier.weight(1f)
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Status dropdown
+            FormLabel("Status")
+            Spacer(modifier = Modifier.height(6.dp))
+            EnumDropdown(
+                options = BookStatus.entries,
+                selected = status,
+                label = { it.label },
+                onSelected = { status = it }
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Rating dropdown
+            FormLabel("Avaliação")
+            Spacer(modifier = Modifier.height(6.dp))
+            EnumDropdown(
+                options = BookRating.entries,
+                selected = rating,
+                label = { it.label },
+                onSelected = { rating = it }
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            PrimaryButton(
+                text = "Salvar livro",
+                enabled = isFormValid,
+                onClick = {
+                    val book = Book(
+                        id = editingBook?.id ?: UUID.randomUUID().toString(),
+                        title = title.trim(),
+                        author = author.trim(),
+                        startDate = startDate.ifBlank { null },
+                        endDate = endDate.ifBlank { null },
+                        status = status,
+                        rating = rating,
+                        createdAt = editingBook?.createdAt ?: System.currentTimeMillis(),
+                        updatedAt = System.currentTimeMillis()
+                    )
+                    onSave(book)
+                }
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+    }
+}
+
+@Composable
+private fun FormLabel(text: String) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.bodyMedium,
+        fontWeight = FontWeight.Medium,
+        color = MaterialTheme.colorScheme.onBackground
+    )
+}
+
+@Composable
+private fun <T> EnumDropdown(
+    options: List<T>,
+    selected: T,
+    label: (T) -> String,
+    onSelected: (T) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    OutlinedButton(
+        onClick = { expanded = true },
+        shape = RoundedCornerShape(12.dp),
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp,
+            MaterialTheme.colorScheme.outline
+        ),
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = label(selected),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.weight(1f)
+        )
+        Icon(
+            imageVector = Icons.Default.KeyboardArrowDown,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false }
+    ) {
+        options.forEach { option ->
+            DropdownMenuItem(
+                text = {
+                    Text(
+                        text = label(option),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                },
+                onClick = {
+                    onSelected(option)
+                    expanded = false
+                },
+                leadingIcon = if (option == selected) ({
+                    Text("✓", color = MaterialTheme.colorScheme.primary)
+                }) else null
+            )
+        }
+    }
+}
+
+@Composable
+private fun formFieldColors() = OutlinedTextFieldDefaults.colors(
+    focusedBorderColor = MaterialTheme.colorScheme.primary,
+    unfocusedBorderColor = MaterialTheme.colorScheme.outline,
+    cursorColor = MaterialTheme.colorScheme.primary
+)
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
+@Composable
+private fun BookFormBottomSheetPreview() {
+    MiniEstanteTheme {
+        BookFormBottomSheet(
+            editingBook = null,
+            onDismiss = {},
+            onSave = {}
+        )
+    }
+}
