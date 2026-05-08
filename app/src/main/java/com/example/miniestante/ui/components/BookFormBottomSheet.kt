@@ -78,7 +78,6 @@ fun BookFormBottomSheet(
         ) {
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Header
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -104,7 +103,6 @@ fun BookFormBottomSheet(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Title field
             FormLabel("Título")
             Spacer(modifier = Modifier.height(6.dp))
             OutlinedTextField(
@@ -119,7 +117,6 @@ fun BookFormBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Author field
             FormLabel("Autor")
             Spacer(modifier = Modifier.height(6.dp))
             OutlinedTextField(
@@ -134,7 +131,6 @@ fun BookFormBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Date fields
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -142,20 +138,23 @@ fun BookFormBottomSheet(
                 DateInputField(
                     label = "Início",
                     value = startDate,
-                    onDateSelected = { startDate = it },
+                    onDateSelected = {
+                        startDate = it
+                        if (endDate.isNotBlank() && endDate < it) endDate = ""
+                    },
                     modifier = Modifier.weight(1f)
                 )
                 DateInputField(
                     label = "Fim",
                     value = endDate,
                     onDateSelected = { endDate = it },
+                    minDate = startDate,
                     modifier = Modifier.weight(1f)
                 )
             }
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Status dropdown
             FormLabel("Status")
             Spacer(modifier = Modifier.height(6.dp))
             EnumDropdown(
@@ -167,7 +166,6 @@ fun BookFormBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Rating dropdown
             FormLabel("Avaliação")
             Spacer(modifier = Modifier.height(6.dp))
             EnumDropdown(

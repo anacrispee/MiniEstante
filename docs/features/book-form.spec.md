@@ -97,9 +97,11 @@ Permitir ao usuário criar um novo livro ou editar um existente via formulário 
 - Editar livro sem datas: campos de data ficam em branco, salvos como `null`
 - Fechar o teclado não fecha o bottom sheet
 - Bottom sheet é sempre expandido (`skipPartiallyExpanded = true`)
+- Campos de data não abrem o teclado — a entrada é feita exclusivamente via `DatePickerDialog`
 
 ## Histórico de alterações
 
 | Data | Alteração | Motivo |
 |------|-----------|--------|
 | 2026-05-07 | Criação da spec | Documentação inicial do MVP |
+| 2026-05-07 | Esclarecimento sobre campos de data | Correção de bug: campos de data usam `DatePickerDialog`, não entrada manual via teclado. O `OutlinedTextField` usa `enabled=false` dentro de um `Box` com `clickable` para garantir que o toque seja capturado corretamente dentro do `ModalBottomSheet` |

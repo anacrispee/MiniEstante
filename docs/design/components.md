@@ -155,9 +155,11 @@ Exibe a avaliação do livro como um chip colorido.
 ## DateInputField
 
 **Arquivo:** `ui/components/DateInputField.kt`
-**Tipo:** Campo de data com máscara
+**Tipo:** Campo de data com seletor
 
-Campo de texto com máscara de data `dd/MM/yyyy`. Converte internamente para o formato de armazenamento `yyyy-MM-dd`.
+Campo de data que exibe o valor no formato `dd/MM/yyyy` e abre um `DatePickerDialog` ao ser tocado. A entrada é feita exclusivamente via seletor — não há digitação manual via teclado.
+
+Internamente usa um `Box` com `Modifier.clickable` envolvendo um `OutlinedTextField` com `enabled=false`. Essa estrutura garante que o toque seja capturado corretamente dentro de `ModalBottomSheet`, onde `readOnly=true` com `clickable` no modifier do campo não propaga o evento de toque de forma confiável.
 
 **Parâmetros:**
 - `label: String`

@@ -2,6 +2,7 @@ package com.example.miniestante.ui.components
 
 import android.app.DatePickerDialog
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -22,32 +23,15 @@ import java.util.Calendar
 @Composable
 fun DateInputField(
     label: String,
-    value: String,           // stored as "yyyy-MM-dd", displayed as "dd/mm/aaaa"
+    value: String,
     onDateSelected: (String) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    minDate: String = ""
 ) {
     val context = LocalContext.current
     val displayValue = if (value.isBlank()) "" else value.toDisplayDate()
 
-    OutlinedTextField(
-        value = displayValue,
-        onValueChange = {},
-        readOnly = true,
-        label = { Text(label, style = MaterialTheme.typography.bodySmall) },
-        placeholder = { Text("dd/mm/aaaa", style = MaterialTheme.typography.bodyMedium) },
-        trailingIcon = {
-            Icon(
-                imageVector = Icons.Outlined.CalendarMonth,
-                contentDescription = "Selecionar data",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        },
-        shape = RoundedCornerShape(12.dp),
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = MaterialTheme.colorScheme.primary,
-            unfocusedBorderColor = MaterialTheme.colorScheme.outline,
-            cursorColor = MaterialTheme.colorScheme.primary
-        ),
+    Box(
         modifier = modifier
             .fillMaxWidth()
             .clickable {
@@ -58,27 +42,59 @@ fun DateInputField(
                         cal.set(parts[0].toInt(), parts[1].toInt() - 1, parts[2].toInt())
                     }
                 }
-                DatePickerDialog(
+                val dialog = DatePickerDialog(
                     context,
                     { _, year, month, day ->
-                        val formatted = "%04d-%02d-%02d".format(year, month + 1, day)
-                        onDateSelected(formatted)
+                        onDateSelected("%04d-%02d-%02d".format(year, month + 1, day))
                     },
                     cal.get(Calendar.YEAR),
                     cal.get(Calendar.MONTH),
                     cal.get(Calendar.DAY_OF_MONTH)
-                ).show()
+                )
+                if (minDate.isNotBlank()) {
+                    val parts = minDate.split("-")
+                    if (parts.size == 3) {
+                        val minCal = Calendar.getInstance()
+                        minCal.set(parts[0].toInt(), parts[1].toInt() - 1, parts[2].toInt())
+                        dialog.datePicker.minDate = minCal.timeInMillis
+                    }
+                }
+                dialog.show()
             }
-    )
+    ) {
+        OutlinedTextField(
+            value = displayValue,
+            onValueChange = {},
+            enabled = false,
+            label = { Text(label, style = MaterialTheme.typography.bodySmall) },
+            placeholder = { Text("dd/mm/aaaa", style = MaterialTheme.typography.bodyMedium) },
+            trailingIcon = {
+                Icon(
+                    imageVector = Icons.Outlined.CalendarMonth,
+                    contentDescription = "Selecionar data",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            },
+            shape = RoundedCornerShape(12.dp),
+            colors = OutlinedTextFieldDefaults.colors(
+                disabledTextColor = MaterialTheme.colorScheme.onSurface,
+                disabledBorderColor = MaterialTheme.colorScheme.outline,
+                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledTrailingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                disabledLeadingIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            ),
+            modifier = Modifier.fillMaxWidth()
+        )
+    }
 }
 
-// "yyyy-MM-dd" → "dd/MM/yyyy"
 fun String.toDisplayDate(): String {
     return try {
         val parts = this.split("-")
         if (parts.size != 3) return this
         "${parts[2]}/${parts[1]}/${parts[0]}"
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         this
     }
 }
