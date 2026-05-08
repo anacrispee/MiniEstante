@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -209,7 +210,15 @@ fun BooksScreen(viewModel: BookListViewModel) {
                         .weight(1f),
                     contentAlignment = Alignment.Center
                 ) {
-                    EmptyBooksState()
+                    if (uiState.books.isEmpty()) {
+                        EmptyBooksState()
+                    } else {
+                        EmptyBooksState(
+                            title = null,
+                            message = stringResource(R.string.empty_search_results),
+                            icon = Icons.Default.Search
+                        )
+                    }
                 }
             } else {
                 LazyColumn(

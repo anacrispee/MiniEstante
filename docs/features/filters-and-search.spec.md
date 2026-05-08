@@ -31,8 +31,8 @@ Permitir ao usuário encontrar livros rapidamente por texto, filtrar por status 
 ## Estados de UI
 
 - **content** — `filteredBooks` não vazio; lista exibida normalmente
-- **empty** — `filteredBooks` vazio com filtros ativos; `EmptyBooksState` exibido
-- **empty sem filtros** — nenhum livro cadastrado; `EmptyBooksState` exibido
+- **empty (com filtros)** — `filteredBooks` vazio mas existem livros cadastrados; `EmptyBooksState` exibe "Nenhum resultado encontrado."
+- **empty (sem livros)** — nenhum livro cadastrado; `EmptyBooksState` exibe convite para adicionar primeiro livro.
 
 ## Eventos do usuário
 
@@ -90,7 +90,7 @@ Permitir ao usuário encontrar livros rapidamente por texto, filtrar por status 
 - [ ] Ordenação por "Início" ordena por `startDate` decrescente
 - [ ] Ordenação por "Fim" ordena por `endDate` decrescente
 - [ ] Livros sem a data ordenada aparecem no final
-- [ ] Estado vazio é exibido quando nenhum livro corresponde aos filtros
+- [ ] Estado vazio exibe "Nenhum resultado encontrado." quando filtros não retornam resultados e há livros no banco.
 
 ## Casos de borda
 
@@ -104,3 +104,4 @@ Permitir ao usuário encontrar livros rapidamente por texto, filtrar por status 
 | Data | Alteração | Motivo |
 |------|-----------|--------|
 | 2026-05-07 | Criação da spec | Documentação inicial do MVP |
+| 2026-05-07 | Feedback visual para busca sem resultados | Adição de mensagem específica "Nenhum resultado encontrado." |

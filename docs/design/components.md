@@ -134,9 +134,13 @@ Dropdown para selecionar a opção de ordenação da lista (`SortOption.START_DA
 **Arquivo:** `ui/components/EmptyBooksState.kt`
 **Tipo:** Estado vazio
 
-Exibido quando `filteredBooks` está vazio. Mostra mensagem orientativa para o usuário.
+Exibido quando `filteredBooks` está vazio. Pode exibir um convite para adicionar livros (lista vazia) ou um feedback de busca sem resultados.
 
-**Parâmetros:** nenhum (sem parâmetros externos)
+**Parâmetros:**
+- `title: String` — título em destaque
+- `message: String?` — mensagem descritiva opcional
+- `icon: ImageVector` — ícone exibido no topo (padrão: `MenuBook`)
+- `modifier: Modifier`
 
 ---
 

@@ -33,7 +33,8 @@ Exibir todos os livros cadastrados em uma lista scrollável, com contador, estad
 
 ## Estados de UI
 
-- **empty** — `filteredBooks` está vazio; exibe `EmptyBooksState` centralizado na tela
+- **empty (lista vazia)** — `books` está vazio; exibe `EmptyBooksState` com convite para adicionar primeiro livro.
+- **empty (sem resultados)** — `books` não está vazio, mas `filteredBooks` está; exibe `EmptyBooksState` com a mensagem "Nenhum resultado encontrado.".
 - **content** — `filteredBooks` tem itens; exibe `LazyColumn` com `BookCard`
 - **loading** — `isLoading = true`; reservado para uso futuro (atualmente não exibido)
 
@@ -77,8 +78,8 @@ Exibir todos os livros cadastrados em uma lista scrollável, com contador, estad
 
 - [ ] Lista exibe todos os livros cadastrados
 - [ ] Contador mostra o total correto de livros
-- [ ] Estado vazio é exibido quando não há livros
-- [ ] Estado vazio é exibido quando filtros não retornam resultados
+- [ ] Estado vazio de lista (sem livros) exibe mensagem de convite
+- [ ] Estado vazio de pesquisa (com filtros) exibe "Nenhum resultado encontrado."
 - [ ] FAB abre o formulário em modo criação
 - [ ] Botão de editar abre o formulário com dados pré-preenchidos
 - [ ] Botão de excluir exibe dialog de confirmação
@@ -99,3 +100,4 @@ Exibir todos os livros cadastrados em uma lista scrollável, com contador, estad
 |------|-----------|--------|
 | 2026-05-07 | Criação da spec | Documentação inicial do MVP |
 | 2026-05-07 | Título da tela atualizado para "Mini Estante" | Refatoração: alinhamento com nome oficial do app e extração para `strings.xml` |
+| 2026-05-07 | Diferenciação de empty states (lista vs busca) | Melhoria de UX: evitar ambiguidade quando a busca não retorna resultados |

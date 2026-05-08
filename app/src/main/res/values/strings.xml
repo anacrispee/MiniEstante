@@ -52,6 +52,7 @@
     <!-- Empty state -->
     <string name="empty_state_title">Nenhum livro ainda</string>
     <string name="empty_state_message">Toque no botão + para registrar seu primeiro livro lido.</string>
+    <string name="empty_search_results">Nenhum resultado encontrado.</string>
 
     <!-- Snackbar messages -->
     <string name="snackbar_export_success">Exportado com sucesso!</string>

@@ -12,12 +12,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -27,7 +29,12 @@ import com.example.miniestante.R
 import com.example.miniestante.ui.theme.MiniEstanteTheme
 
 @Composable
-fun EmptyBooksState(modifier: Modifier = Modifier) {
+fun EmptyBooksState(
+    modifier: Modifier = Modifier,
+    title: String? = stringResource(R.string.empty_state_title),
+    message: String? = stringResource(R.string.empty_state_message),
+    icon: ImageVector = Icons.AutoMirrored.Outlined.MenuBook
+) {
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -45,31 +52,35 @@ fun EmptyBooksState(modifier: Modifier = Modifier) {
                 )
         ) {
             Icon(
-                imageVector = Icons.AutoMirrored.Outlined.MenuBook,
+                imageVector = icon,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(36.dp)
             )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
+        if (title != null) {
+            Spacer(modifier = Modifier.height(24.dp))
 
-        Text(
-            text = stringResource(R.string.empty_state_title),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center
-        )
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onBackground,
+                textAlign = TextAlign.Center
+            )
+        }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        if (message != null) {
+            Spacer(modifier = Modifier.height(if (title == null) 24.dp else 8.dp))
 
-        Text(
-            text = stringResource(R.string.empty_state_message),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center
-        )
+            Text(
+                text = message,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
 
@@ -77,6 +88,14 @@ fun EmptyBooksState(modifier: Modifier = Modifier) {
 @Composable
 private fun EmptyBooksStatePreview() {
     MiniEstanteTheme {
-        EmptyBooksState()
+        Column {
+            EmptyBooksState()
+            Spacer(modifier = Modifier.height(16.dp))
+            EmptyBooksState(
+                title = null,
+                message = "Nenhum resultado encontrado.",
+                icon = Icons.Default.Search
+            )
+        }
     }
 }
