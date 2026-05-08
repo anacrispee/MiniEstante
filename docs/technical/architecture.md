@@ -71,7 +71,8 @@ com.example.miniestante/
 ├── ui/
 │   ├── books/          # Tela principal: BooksScreen, ViewModel, UiState, Action
 │   ├── components/     # Componentes reutilizáveis
-│   └── theme/          # Color, Theme, Type
+│   ├── theme/          # Color, Theme, Type
+│   └── util/           # Utilitários de UI: DateUtils
 └── MainActivity.kt
 ```
 
@@ -80,3 +81,20 @@ com.example.miniestante/
 Ver ADRs em `/docs/decisions/`:
 - [ADR 0001 — Arquitetura do projeto](../decisions/adr-0001-project-architecture.md)
 - [ADR 0002 — Persistência local](../decisions/adr-0002-local-persistence.md)
+
+## Utilitários de UI
+
+**Pacote:** `ui/util/`
+
+Funções auxiliares reutilizáveis que não pertencem a nenhum componente específico.
+
+| Arquivo | Função | Descrição |
+|---------|--------|-----------|
+| `DateUtils.kt` | `String.formatDate()` | Converte `"yyyy-MM-dd"` → `"dd mmm yyyy"` (ex: `"04 mai 2026"`) |
+| `DateUtils.kt` | `String.toDisplayDate()` | Converte `"yyyy-MM-dd"` → `"dd/MM/yyyy"` |
+
+Ambas as funções são extension functions em `String` e retornam a string original em caso de formato inválido.
+
+## Strings e internacionalização
+
+Todas as strings visíveis ao usuário estão centralizadas em `app/src/main/res/values/strings.xml`. O código usa `stringResource(R.string.*)` em Composables e não contém strings hardcoded em português.

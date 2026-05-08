@@ -13,8 +13,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.miniestante.R
 import com.example.miniestante.data.model.BookRating
 import com.example.miniestante.data.model.BookStatus
 import com.example.miniestante.ui.theme.MiniEstanteTheme
@@ -33,7 +35,7 @@ fun StatusFilterChips(
         verticalAlignment = Alignment.CenterVertically
     ) {
         AppFilterChip(
-            label = "Todos",
+            label = stringResource(R.string.filter_all_status),
             selected = selectedStatus == null,
             onClick = { onStatusSelected(null) }
         )
@@ -61,7 +63,7 @@ fun RatingFilterChips(
         verticalAlignment = Alignment.CenterVertically
     ) {
         AppFilterChip(
-            label = "Todas avaliações",
+            label = stringResource(R.string.filter_all_ratings),
             selected = selectedRating == null,
             onClick = { onRatingSelected(null) }
         )

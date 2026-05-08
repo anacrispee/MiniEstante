@@ -42,9 +42,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.miniestante.R
 import com.example.miniestante.data.model.Book
 import com.example.miniestante.ui.components.BackupDialog
 import com.example.miniestante.ui.components.BookCard
@@ -68,7 +70,9 @@ fun BooksScreen(viewModel: BookListViewModel) {
 
     var bookToDelete by remember { mutableStateOf<Book?>(null) }
 
-    // File picker for import
+    val errorReadFile = stringResource(R.string.snackbar_import_error_read)
+    val successExport = stringResource(R.string.snackbar_export_success)
+
     val importLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument()
     ) { uri: Uri? ->
@@ -77,12 +81,11 @@ fun BooksScreen(viewModel: BookListViewModel) {
             if (jsonString != null) {
                 viewModel.onAction(BookListAction.OnImportJsonClicked(jsonString))
             } else {
-                scope.launch { snackbarHostState.showSnackbar("Não foi possível ler o arquivo.") }
+                scope.launch { snackbarHostState.showSnackbar(errorReadFile) }
             }
         }
     }
 
-    // File creator for export
     val exportLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CreateDocument("application/json")
     ) { uri: Uri? ->
@@ -90,12 +93,11 @@ fun BooksScreen(viewModel: BookListViewModel) {
             val jsonString = viewModel.getBooksAsJson()
             if (jsonString.isNotBlank()) {
                 context.writeTextToUri(it, jsonString)
-                scope.launch { snackbarHostState.showSnackbar("Exportado com sucesso!") }
+                scope.launch { snackbarHostState.showSnackbar(successExport) }
             }
         }
     }
 
-    // Show snackbar messages from ViewModel
     LaunchedEffect(uiState.successMessage) {
         uiState.successMessage?.let {
             snackbarHostState.showSnackbar(it)
@@ -134,14 +136,13 @@ fun BooksScreen(viewModel: BookListViewModel) {
         ) {
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Top bar
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Meus Livros",
+                    text = stringResource(R.string.screen_title_books),
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
@@ -149,14 +150,18 @@ fun BooksScreen(viewModel: BookListViewModel) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     val count = uiState.books.size
                     Text(
-                        text = "$count ${if (count == 1) "livro" else "livros"}",
+                        text = if (count == 1) {
+                            stringResource(R.string.book_count_singular, count)
+                        } else {
+                            stringResource(R.string.book_count_plural, count)
+                        },
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     IconButton(onClick = { viewModel.onAction(BookListAction.OnBackupClicked) }) {
                         Icon(
                             imageVector = Icons.Outlined.Archive,
-                            contentDescription = "Backup",
+                            contentDescription = stringResource(R.string.action_backup),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(24.dp)
                         )
@@ -166,7 +171,6 @@ fun BooksScreen(viewModel: BookListViewModel) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Search
             SearchBookField(
                 query = uiState.searchQuery,
                 onQueryChange = { viewModel.onAction(BookListAction.OnSearchChanged(it)) }
@@ -174,7 +178,6 @@ fun BooksScreen(viewModel: BookListViewModel) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Status filter chips
             StatusFilterChips(
                 selectedStatus = uiState.selectedStatusFilter,
                 onStatusSelected = { viewModel.onAction(BookListAction.OnStatusFilterSelected(it)) }
@@ -182,7 +185,6 @@ fun BooksScreen(viewModel: BookListViewModel) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Rating filter chips + sort dropdown
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -200,7 +202,6 @@ fun BooksScreen(viewModel: BookListViewModel) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Book list or empty state
             if (uiState.filteredBooks.isEmpty()) {
                 Box(
                     modifier = Modifier
@@ -228,7 +229,6 @@ fun BooksScreen(viewModel: BookListViewModel) {
         }
     }
 
-    // Book form bottom sheet
     if (uiState.isBookFormVisible) {
         BookFormBottomSheet(
             editingBook = uiState.editingBook,
@@ -250,7 +250,6 @@ fun BooksScreen(viewModel: BookListViewModel) {
         )
     }
 
-    // Backup dialog
     if (uiState.isBackupDialogVisible) {
         BackupDialog(
             onDismiss = { viewModel.onAction(BookListAction.OnDismissBackupDialog) },
@@ -265,20 +264,19 @@ fun BooksScreen(viewModel: BookListViewModel) {
         )
     }
 
-    // Delete confirmation dialog
     bookToDelete?.let { book ->
         AlertDialog(
             onDismissRequest = { bookToDelete = null },
             title = {
                 Text(
-                    text = "Excluir livro",
+                    text = stringResource(R.string.dialog_delete_title),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
             },
             text = {
                 Text(
-                    text = "Tem certeza que deseja excluir \"${book.title}\"? Esta ação não pode ser desfeita.",
+                    text = stringResource(R.string.dialog_delete_message, book.title),
                     style = MaterialTheme.typography.bodyMedium
                 )
             },
@@ -290,25 +288,24 @@ fun BooksScreen(viewModel: BookListViewModel) {
                     }
                 ) {
                     Text(
-                        text = "Excluir",
+                        text = stringResource(R.string.dialog_delete_confirm),
                         color = MaterialTheme.colorScheme.error
                     )
                 }
             },
             dismissButton = {
                 TextButton(onClick = { bookToDelete = null }) {
-                    Text("Cancelar")
+                    Text(stringResource(R.string.dialog_delete_cancel))
                 }
             }
         )
     }
 }
 
-// Extension functions for file I/O
 fun Context.readTextFromUri(uri: Uri): String? {
     return try {
         contentResolver.openInputStream(uri)?.bufferedReader()?.use { it.readText() }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         null
     }
 }
@@ -316,16 +313,13 @@ fun Context.readTextFromUri(uri: Uri): String? {
 fun Context.writeTextToUri(uri: Uri, text: String) {
     try {
         contentResolver.openOutputStream(uri)?.bufferedWriter()?.use { it.write(text) }
-    } catch (e: Exception) {
-        // silently fail — snackbar shown by caller
-    }
+    } catch (_: Exception) { }
 }
 
 @Preview(showBackground = true, device = "spec:width=390dp,height=844dp")
 @Composable
 private fun BooksScreenPreview() {
     MiniEstanteTheme {
-        // Preview with a mock ViewModel is not straightforward; shown as placeholder
         Text("BooksScreen Preview", modifier = Modifier.padding(16.dp))
     }
 }

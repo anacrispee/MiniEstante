@@ -21,7 +21,7 @@
 
 - `id` é a chave primária (`@PrimaryKey`) — nunca deve ser alterado após a criação
 - Datas são armazenadas como `String` no formato ISO `"yyyy-MM-dd"` para simplicidade e serialização direta
-- A exibição formata as datas para `"dd mmm yyyy"` via `String.formatDate()` em `BookCard.kt`
+- A exibição formata as datas para `"dd mmm yyyy"` via `String.formatDate()` em `ui/util/DateUtils.kt`
 - `createdAt` é preservado na edição; `updatedAt` é atualizado a cada `updateBook()`
 
 ---

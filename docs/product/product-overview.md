@@ -2,7 +2,7 @@
 
 ## O que é
 
-MiniEstante é um app Android de registro pessoal de leituras. O usuário cadastra os livros que leu, está lendo ou não terminou, com datas, status e avaliação. Tudo fica salvo localmente no dispositivo.
+MiniEstante é um app Android de registro pessoal de leituras, exibido ao usuário como **Mini Estante**. O usuário cadastra os livros que leu, está lendo ou não terminou, com datas, status e avaliação. Tudo fica salvo localmente no dispositivo.
 
 ## Propósito
 

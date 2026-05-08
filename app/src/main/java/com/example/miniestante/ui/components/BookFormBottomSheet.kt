@@ -35,9 +35,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.miniestante.R
 import com.example.miniestante.data.model.Book
 import com.example.miniestante.data.model.BookRating
 import com.example.miniestante.data.model.BookStatus
@@ -90,7 +92,10 @@ fun BookFormBottomSheet(
             ) {
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = if (editingBook == null) "Novo livro" else "Editar livro",
+                    text = stringResource(
+                        if (editingBook == null) R.string.form_title_new_book
+                        else R.string.form_title_edit_book
+                    ),
                     style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
@@ -99,7 +104,7 @@ fun BookFormBottomSheet(
                     IconButton(onClick = onDismiss) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = "Fechar",
+                            contentDescription = stringResource(R.string.action_close),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
@@ -108,12 +113,17 @@ fun BookFormBottomSheet(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            FormLabel("Título")
+            FormLabel(stringResource(R.string.form_label_title))
             Spacer(modifier = Modifier.height(6.dp))
             OutlinedTextField(
                 value = title,
                 onValueChange = onTitleChange,
-                placeholder = { Text("Nome do livro", style = MaterialTheme.typography.bodyMedium) },
+                placeholder = {
+                    Text(
+                        stringResource(R.string.form_placeholder_title),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                },
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 colors = formFieldColors(),
@@ -122,12 +132,17 @@ fun BookFormBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            FormLabel("Autor")
+            FormLabel(stringResource(R.string.form_label_author))
             Spacer(modifier = Modifier.height(6.dp))
             OutlinedTextField(
                 value = author,
                 onValueChange = onAuthorChange,
-                placeholder = { Text("Nome do autor", style = MaterialTheme.typography.bodyMedium) },
+                placeholder = {
+                    Text(
+                        stringResource(R.string.form_placeholder_author),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                },
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
                 colors = formFieldColors(),
@@ -141,13 +156,13 @@ fun BookFormBottomSheet(
                 horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 DateInputField(
-                    label = "Início",
+                    label = stringResource(R.string.form_label_start_date),
                     value = startDate,
                     onDateSelected = onStartDateChange,
                     modifier = Modifier.weight(1f)
                 )
                 DateInputField(
-                    label = "Fim",
+                    label = stringResource(R.string.form_label_end_date),
                     value = endDate,
                     onDateSelected = onEndDateChange,
                     minDate = startDate,
@@ -157,7 +172,7 @@ fun BookFormBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            FormLabel("Status")
+            FormLabel(stringResource(R.string.form_label_status))
             Spacer(modifier = Modifier.height(6.dp))
             EnumDropdown(
                 options = BookStatus.entries,
@@ -168,7 +183,7 @@ fun BookFormBottomSheet(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            FormLabel("Avaliação")
+            FormLabel(stringResource(R.string.form_label_rating))
             Spacer(modifier = Modifier.height(6.dp))
             EnumDropdown(
                 options = BookRating.entries,
@@ -180,7 +195,7 @@ fun BookFormBottomSheet(
             Spacer(modifier = Modifier.height(24.dp))
 
             PrimaryButton(
-                text = "Salvar livro",
+                text = stringResource(R.string.form_button_save),
                 enabled = isFormValid,
                 onClick = {
                     val book = Book(

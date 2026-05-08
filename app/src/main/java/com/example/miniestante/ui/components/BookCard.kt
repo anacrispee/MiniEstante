@@ -21,13 +21,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.miniestante.R
 import com.example.miniestante.data.model.Book
 import com.example.miniestante.data.model.BookRating
 import com.example.miniestante.data.model.BookStatus
 import com.example.miniestante.ui.theme.MiniEstanteTheme
+import com.example.miniestante.ui.util.formatDate
 import java.util.UUID
 
 @Composable
@@ -73,7 +76,7 @@ fun BookCard(
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Edit,
-                            contentDescription = "Editar",
+                            contentDescription = stringResource(R.string.action_edit),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(20.dp)
                         )
@@ -84,7 +87,7 @@ fun BookCard(
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Delete,
-                            contentDescription = "Excluir",
+                            contentDescription = stringResource(R.string.action_delete),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(20.dp)
                         )
@@ -94,11 +97,10 @@ fun BookCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Date range
-            val startFormatted = book.startDate?.formatDate() ?: "—"
-            val endFormatted = book.endDate?.formatDate() ?: "—"
+            val startFormatted = book.startDate?.formatDate() ?: stringResource(R.string.book_date_empty)
+            val endFormatted = book.endDate?.formatDate() ?: stringResource(R.string.book_date_empty)
             Text(
-                text = "$startFormatted  →  $endFormatted",
+                text = "$startFormatted${stringResource(R.string.book_date_separator)}$endFormatted",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -113,21 +115,6 @@ fun BookCard(
                 RatingBadge(rating = book.rating)
             }
         }
-    }
-}
-
-// Converts "yyyy-MM-dd" to "dd mmm yyyy" (e.g. "04 mai 2026")
-fun String.formatDate(): String {
-    return try {
-        val parts = this.split("-")
-        if (parts.size != 3) return this
-        val year = parts[0]
-        val month = parts[1].toInt()
-        val day = parts[2]
-        val monthAbbr = listOf("jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez")
-        "$day ${monthAbbr[month - 1]} $year"
-    } catch (e: Exception) {
-        this
     }
 }
 

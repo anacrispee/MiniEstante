@@ -9,25 +9,28 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.outlined.Download
 import androidx.compose.material.icons.outlined.Upload
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.miniestante.R
 import com.example.miniestante.ui.theme.MiniEstanteTheme
 
 @Composable
@@ -47,7 +50,6 @@ fun BackupDialog(
                     .fillMaxWidth()
                     .padding(24.dp)
             ) {
-                // Header
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -55,7 +57,7 @@ fun BackupDialog(
                 ) {
                     Spacer(modifier = Modifier.size(40.dp))
                     Text(
-                        text = "Backup",
+                        text = stringResource(R.string.dialog_backup_title),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onBackground
@@ -66,7 +68,7 @@ fun BackupDialog(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Close,
-                            contentDescription = "Fechar",
+                            contentDescription = stringResource(R.string.action_close),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
@@ -75,7 +77,7 @@ fun BackupDialog(
                 Spacer(modifier = Modifier.height(12.dp))
 
                 Text(
-                    text = "Exporte seus livros como JSON para salvar no Google Drive, ou importe um backup anterior.",
+                    text = stringResource(R.string.dialog_backup_description),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.fillMaxWidth()
@@ -83,7 +85,6 @@ fun BackupDialog(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Export button
                 OutlinedButton(
                     onClick = onExportClick,
                     shape = RoundedCornerShape(12.dp),
@@ -100,15 +101,15 @@ fun BackupDialog(
                         contentDescription = null,
                         modifier = Modifier.size(20.dp)
                     )
+                    Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "  Exportar JSON",
+                        text = stringResource(R.string.dialog_backup_export),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // Import button
                 OutlinedButton(
                     onClick = onImportClick,
                     shape = RoundedCornerShape(12.dp),
@@ -125,8 +126,9 @@ fun BackupDialog(
                         contentDescription = null,
                         modifier = Modifier.size(20.dp)
                     )
+                    Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "  Importar JSON",
+                        text = stringResource(R.string.dialog_backup_import),
                         style = MaterialTheme.typography.titleMedium
                     )
                 }

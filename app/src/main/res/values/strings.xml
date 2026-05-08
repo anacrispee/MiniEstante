@@ -1,3 +1,62 @@
 <resources>
-    <string name="app_name">MiniEstante</string>
+    <string name="app_name">Mini Estante</string>
+
+    <!-- Screen titles -->
+    <string name="screen_title_books">Mini Estante</string>
+
+    <!-- Book form -->
+    <string name="form_title_new_book">Novo livro</string>
+    <string name="form_title_edit_book">Editar livro</string>
+    <string name="form_label_title">Título</string>
+    <string name="form_label_author">Autor</string>
+    <string name="form_label_start_date">Início</string>
+    <string name="form_label_end_date">Fim</string>
+    <string name="form_label_status">Status</string>
+    <string name="form_label_rating">Avaliação</string>
+    <string name="form_placeholder_title">Nome do livro</string>
+    <string name="form_placeholder_author">Nome do autor</string>
+    <string name="form_placeholder_date">dd/mm/aaaa</string>
+    <string name="form_button_save">Salvar livro</string>
+
+    <!-- Book card / list -->
+    <string name="book_count_singular">%d livro</string>
+    <string name="book_count_plural">%d livros</string>
+    <string name="book_date_separator">&#160;→&#160;</string>
+    <string name="book_date_empty">—</string>
+    <string name="action_edit">Editar</string>
+    <string name="action_delete">Excluir</string>
+    <string name="action_close">Fechar</string>
+    <string name="action_backup">Backup</string>
+    <string name="action_select_date">Selecionar data</string>
+    <string name="action_search">Buscar</string>
+
+    <!-- Delete dialog -->
+    <string name="dialog_delete_title">Excluir livro</string>
+    <string name="dialog_delete_message">Tem certeza que deseja excluir \"%s\"? Esta ação não pode ser desfeita.</string>
+    <string name="dialog_delete_confirm">Excluir</string>
+    <string name="dialog_delete_cancel">Cancelar</string>
+
+    <!-- Backup dialog -->
+    <string name="dialog_backup_title">Backup</string>
+    <string name="dialog_backup_description">Exporte seus livros como JSON para salvar no Google Drive, ou importe um backup anterior.</string>
+    <string name="dialog_backup_export">Exportar JSON</string>
+    <string name="dialog_backup_import">Importar JSON</string>
+
+    <!-- Search -->
+    <string name="search_placeholder">Buscar título ou autor…</string>
+
+    <!-- Filter chips -->
+    <string name="filter_all_status">Todos</string>
+    <string name="filter_all_ratings">Todas avaliações</string>
+
+    <!-- Empty state -->
+    <string name="empty_state_title">Nenhum livro ainda</string>
+    <string name="empty_state_message">Toque no botão + para registrar seu primeiro livro lido.</string>
+
+    <!-- Snackbar messages -->
+    <string name="snackbar_export_success">Exportado com sucesso!</string>
+    <string name="snackbar_import_error_read">Não foi possível ler o arquivo.</string>
+    <string name="snackbar_import_success">%d livro(s) importado(s) com sucesso!</string>
+    <string name="snackbar_import_error_empty">Nenhum livro encontrado no arquivo.</string>
+    <string name="snackbar_import_error_invalid">Arquivo inválido. Verifique o formato JSON.</string>
 </resources>

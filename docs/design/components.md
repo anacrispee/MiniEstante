@@ -29,7 +29,7 @@ Exibe as informações de um livro: título, autor, intervalo de datas formatado
 - `onDeleteClick: () -> Unit` — callback de exclusão
 - `modifier: Modifier`
 
-**Função auxiliar:** `String.formatDate()` — converte `"yyyy-MM-dd"` para `"dd mmm yyyy"` (ex: `"04 mai 2026"`).
+**Formatação de datas:** usa `String.formatDate()` de `ui/util/DateUtils.kt`.
 
 ---
 

@@ -98,3 +98,4 @@ Exibir todos os livros cadastrados em uma lista scrollável, com contador, estad
 | Data | Alteração | Motivo |
 |------|-----------|--------|
 | 2026-05-07 | Criação da spec | Documentação inicial do MVP |
+| 2026-05-07 | Título da tela atualizado para "Mini Estante" | Refatoração: alinhamento com nome oficial do app e extração para `strings.xml` |

@@ -15,9 +15,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.miniestante.R
 import com.example.miniestante.ui.theme.MiniEstanteTheme
+import com.example.miniestante.ui.util.toDisplayDate
 import java.util.Calendar
 
 @Composable
@@ -67,11 +70,16 @@ fun DateInputField(
             onValueChange = {},
             enabled = false,
             label = { Text(label, style = MaterialTheme.typography.bodySmall) },
-            placeholder = { Text("dd/mm/aaaa", style = MaterialTheme.typography.bodyMedium) },
+            placeholder = {
+                Text(
+                    stringResource(R.string.form_placeholder_date),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            },
             trailingIcon = {
                 Icon(
                     imageVector = Icons.Outlined.CalendarMonth,
-                    contentDescription = "Selecionar data",
+                    contentDescription = stringResource(R.string.action_select_date),
                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             },
@@ -86,16 +94,6 @@ fun DateInputField(
             ),
             modifier = Modifier.fillMaxWidth()
         )
-    }
-}
-
-fun String.toDisplayDate(): String {
-    return try {
-        val parts = this.split("-")
-        if (parts.size != 3) return this
-        "${parts[2]}/${parts[1]}/${parts[0]}"
-    } catch (_: Exception) {
-        this
     }
 }
 

@@ -11,8 +11,8 @@ data class Book(
     val id: String,
     val title: String,
     val author: String,
-    val startDate: String? = null,   // stored as "yyyy-MM-dd"
-    val endDate: String? = null,     // stored as "yyyy-MM-dd"
+    val startDate: String? = null,
+    val endDate: String? = null,
     val status: BookStatus = BookStatus.IN_PROGRESS,
     val rating: BookRating = BookRating.NONE,
     val createdAt: Long = System.currentTimeMillis(),
