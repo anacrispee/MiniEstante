@@ -48,17 +48,22 @@ import java.util.UUID
 @Composable
 fun BookFormBottomSheet(
     editingBook: Book?,
+    title: String,
+    author: String,
+    startDate: String,
+    endDate: String,
+    status: BookStatus,
+    rating: BookRating,
+    onTitleChange: (String) -> Unit,
+    onAuthorChange: (String) -> Unit,
+    onStartDateChange: (String) -> Unit,
+    onEndDateChange: (String) -> Unit,
+    onStatusChange: (BookStatus) -> Unit,
+    onRatingChange: (BookRating) -> Unit,
     onDismiss: () -> Unit,
     onSave: (Book) -> Unit,
     sheetState: SheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 ) {
-    var title by remember(editingBook) { mutableStateOf(editingBook?.title ?: "") }
-    var author by remember(editingBook) { mutableStateOf(editingBook?.author ?: "") }
-    var startDate by remember(editingBook) { mutableStateOf(editingBook?.startDate ?: "") }
-    var endDate by remember(editingBook) { mutableStateOf(editingBook?.endDate ?: "") }
-    var status by remember(editingBook) { mutableStateOf(editingBook?.status ?: BookStatus.IN_PROGRESS) }
-    var rating by remember(editingBook) { mutableStateOf(editingBook?.rating ?: BookRating.WORTH_VOTE) }
-
     val isFormValid = title.isNotBlank() && author.isNotBlank()
 
     ModalBottomSheet(
@@ -107,7 +112,7 @@ fun BookFormBottomSheet(
             Spacer(modifier = Modifier.height(6.dp))
             OutlinedTextField(
                 value = title,
-                onValueChange = { title = it },
+                onValueChange = onTitleChange,
                 placeholder = { Text("Nome do livro", style = MaterialTheme.typography.bodyMedium) },
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
@@ -121,7 +126,7 @@ fun BookFormBottomSheet(
             Spacer(modifier = Modifier.height(6.dp))
             OutlinedTextField(
                 value = author,
-                onValueChange = { author = it },
+                onValueChange = onAuthorChange,
                 placeholder = { Text("Nome do autor", style = MaterialTheme.typography.bodyMedium) },
                 singleLine = true,
                 shape = RoundedCornerShape(12.dp),
@@ -138,16 +143,13 @@ fun BookFormBottomSheet(
                 DateInputField(
                     label = "Início",
                     value = startDate,
-                    onDateSelected = {
-                        startDate = it
-                        if (endDate.isNotBlank() && endDate < it) endDate = ""
-                    },
+                    onDateSelected = onStartDateChange,
                     modifier = Modifier.weight(1f)
                 )
                 DateInputField(
                     label = "Fim",
                     value = endDate,
-                    onDateSelected = { endDate = it },
+                    onDateSelected = onEndDateChange,
                     minDate = startDate,
                     modifier = Modifier.weight(1f)
                 )
@@ -161,7 +163,7 @@ fun BookFormBottomSheet(
                 options = BookStatus.entries,
                 selected = status,
                 label = { it.label },
-                onSelected = { status = it }
+                onSelected = onStatusChange
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -172,7 +174,7 @@ fun BookFormBottomSheet(
                 options = BookRating.entries,
                 selected = rating,
                 label = { it.label },
-                onSelected = { rating = it }
+                onSelected = onRatingChange
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -280,6 +282,18 @@ private fun BookFormBottomSheetPreview() {
     MiniEstanteTheme {
         BookFormBottomSheet(
             editingBook = null,
+            title = "",
+            author = "",
+            startDate = "",
+            endDate = "",
+            status = BookStatus.IN_PROGRESS,
+            rating = BookRating.WORTH_VOTE,
+            onTitleChange = {},
+            onAuthorChange = {},
+            onStartDateChange = {},
+            onEndDateChange = {},
+            onStatusChange = {},
+            onRatingChange = {},
             onDismiss = {},
             onSave = {}
         )

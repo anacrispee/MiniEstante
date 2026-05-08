@@ -1,7 +1,6 @@
 package com.example.miniestante.ui.books
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -233,6 +232,18 @@ fun BooksScreen(viewModel: BookListViewModel) {
     if (uiState.isBookFormVisible) {
         BookFormBottomSheet(
             editingBook = uiState.editingBook,
+            title = uiState.formTitle,
+            author = uiState.formAuthor,
+            startDate = uiState.formStartDate,
+            endDate = uiState.formEndDate,
+            status = uiState.formStatus,
+            rating = uiState.formRating,
+            onTitleChange = { viewModel.onAction(BookListAction.OnFormTitleChanged(it)) },
+            onAuthorChange = { viewModel.onAction(BookListAction.OnFormAuthorChanged(it)) },
+            onStartDateChange = { viewModel.onAction(BookListAction.OnFormStartDateChanged(it)) },
+            onEndDateChange = { viewModel.onAction(BookListAction.OnFormEndDateChanged(it)) },
+            onStatusChange = { viewModel.onAction(BookListAction.OnFormStatusChanged(it)) },
+            onRatingChange = { viewModel.onAction(BookListAction.OnFormRatingChanged(it)) },
             sheetState = sheetState,
             onDismiss = { viewModel.onAction(BookListAction.OnDismissForm) },
             onSave = { book -> viewModel.onAction(BookListAction.OnSaveBookClicked(book)) }

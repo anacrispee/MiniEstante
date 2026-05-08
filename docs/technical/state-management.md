@@ -21,6 +21,12 @@ data class BookListUiState(
     val isLoading: Boolean = false,               // reservado para uso futuro
     val isBookFormVisible: Boolean = false,       // controla visibilidade do bottom sheet
     val editingBook: Book? = null,                // null = criação, Book = edição
+    val formTitle: String = "",                   // estado do campo título no formulário
+    val formAuthor: String = "",                  // estado do campo autor no formulário
+    val formStartDate: String = "",               // estado do campo data de início
+    val formEndDate: String = "",                 // estado do campo data de fim
+    val formStatus: BookStatus = BookStatus.IN_PROGRESS,
+    val formRating: BookRating = BookRating.WORTH_VOTE,
     val isBackupDialogVisible: Boolean = false,   // controla visibilidade do BackupDialog
     val errorMessage: String? = null,             // mensagem de erro para Snackbar
     val successMessage: String? = null            // mensagem de sucesso para Snackbar
@@ -31,8 +37,13 @@ data class BookListUiState(
 
 - `filteredBooks` é sempre um subconjunto de `books` após aplicar `searchQuery`, `selectedStatusFilter`, `selectedRatingFilter` e `selectedSortOption`
 - `editingBook` só é não-nulo quando `isBookFormVisible = true`
+- Os campos `form*` são inicializados por `OnAddBookClicked` (valores padrão) e `OnEditBookClicked` (valores do livro); são limpos ao fechar o formulário via `OnDismissForm`
 - `errorMessage` e `successMessage` são mutuamente exclusivos na prática (nunca ambos não-nulos ao mesmo tempo)
 - Após exibir uma mensagem via Snackbar, a UI dispara `OnClearMessages` para limpar o estado
+
+### Por que o estado do formulário vive no ViewModel
+
+O Android recria a Activity em configuration changes (rotação de tela, troca de tema claro/escuro, mudança de idioma, etc.). Estado gerenciado com `remember` em Composables é perdido nesse processo. Ao centralizar os campos do formulário no `BookListUiState`, o `ViewModel` — que sobrevive à recreation — preserva os dados em edição.
 
 ---
 
@@ -46,11 +57,17 @@ data class BookListUiState(
 | `OnStatusFilterSelected` | `status: BookStatus?` | Atualiza filtro de status e refiltra |
 | `OnRatingFilterSelected` | `rating: BookRating?` | Atualiza filtro de avaliação e refiltra |
 | `OnSortSelected` | `sort: SortOption` | Atualiza ordenação e refiltra |
-| `OnAddBookClicked` | — | Abre formulário em modo criação |
-| `OnEditBookClicked` | `book: Book` | Abre formulário em modo edição |
+| `OnAddBookClicked` | — | Abre formulário em modo criação; inicializa campos `form*` com valores padrão |
+| `OnEditBookClicked` | `book: Book` | Abre formulário em modo edição; inicializa campos `form*` com dados do livro |
 | `OnDeleteBookClicked` | `book: Book` | Exclui livro do banco |
 | `OnSaveBookClicked` | `book: Book` | Insere ou atualiza livro no banco |
 | `OnDismissForm` | — | Fecha formulário |
+| `OnFormTitleChanged` | `title: String` | Atualiza `formTitle` |
+| `OnFormAuthorChanged` | `author: String` | Atualiza `formAuthor` |
+| `OnFormStartDateChanged` | `date: String` | Atualiza `formStartDate`; limpa `formEndDate` se anterior à nova data de início |
+| `OnFormEndDateChanged` | `date: String` | Atualiza `formEndDate` |
+| `OnFormStatusChanged` | `status: BookStatus` | Atualiza `formStatus` |
+| `OnFormRatingChanged` | `rating: BookRating` | Atualiza `formRating` |
 | `OnBackupClicked` | — | Abre dialog de backup |
 | `OnExportJsonClicked` | `jsonString: String` | Inicia exportação (não usado diretamente) |
 | `OnImportJsonClicked` | `jsonString: String` | Importa JSON e substitui dados |

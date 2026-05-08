@@ -19,6 +19,12 @@ data class BookListUiState(
     val isLoading: Boolean = false,
     val isBookFormVisible: Boolean = false,
     val editingBook: Book? = null,
+    val formTitle: String = "",
+    val formAuthor: String = "",
+    val formStartDate: String = "",
+    val formEndDate: String = "",
+    val formStatus: BookStatus = BookStatus.IN_PROGRESS,
+    val formRating: BookRating = BookRating.WORTH_VOTE,
     val isBackupDialogVisible: Boolean = false,
     val errorMessage: String? = null,
     val successMessage: String? = null

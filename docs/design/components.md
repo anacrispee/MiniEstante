@@ -38,10 +38,22 @@ Exibe as informações de um livro: título, autor, intervalo de datas formatado
 **Arquivo:** `ui/components/BookFormBottomSheet.kt`
 **Tipo:** Formulário em ModalBottomSheet
 
-Formulário de criação e edição de livros. Gerencia estado local dos campos com `remember`. Detecta modo edição pela presença de `editingBook`.
+Formulário de criação e edição de livros. Componente stateless — não gerencia estado local. Recebe todos os valores dos campos e callbacks de alteração via parâmetros, com estado centralizado no `BookListViewModel`.
 
 **Parâmetros:**
 - `editingBook: Book?` — `null` para criação, `Book` para edição
+- `title: String`
+- `author: String`
+- `startDate: String`
+- `endDate: String`
+- `status: BookStatus`
+- `rating: BookRating`
+- `onTitleChange: (String) -> Unit`
+- `onAuthorChange: (String) -> Unit`
+- `onStartDateChange: (String) -> Unit`
+- `onEndDateChange: (String) -> Unit`
+- `onStatusChange: (BookStatus) -> Unit`
+- `onRatingChange: (BookRating) -> Unit`
 - `onDismiss: () -> Unit`
 - `onSave: (Book) -> Unit`
 - `sheetState: SheetState`
@@ -166,6 +178,7 @@ Internamente usa um `Box` com `Modifier.clickable` envolvendo um `OutlinedTextFi
 - `value: String` — no formato `"yyyy-MM-dd"` ou vazio
 - `onDateSelected: (String) -> Unit` — retorna no formato `"yyyy-MM-dd"`
 - `modifier: Modifier`
+- `minDate: String` — data mínima selecionável no formato `"yyyy-MM-dd"` (opcional, padrão vazio)
 
 ---
 

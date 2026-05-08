@@ -12,7 +12,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class BookListViewModel(private val repository: BookRepository) : ViewModel() {
@@ -47,11 +46,44 @@ class BookListViewModel(private val repository: BookRepository) : ViewModel() {
             is BookListAction.OnStatusFilterSelected -> updateStatusFilter(action.status)
             is BookListAction.OnRatingFilterSelected -> updateRatingFilter(action.rating)
             is BookListAction.OnSortSelected -> updateSort(action.sort)
-            is BookListAction.OnAddBookClicked -> _uiState.update { it.copy(isBookFormVisible = true, editingBook = null) }
-            is BookListAction.OnEditBookClicked -> _uiState.update { it.copy(isBookFormVisible = true, editingBook = action.book) }
+            is BookListAction.OnAddBookClicked -> _uiState.update {
+                it.copy(
+                    isBookFormVisible = true,
+                    editingBook = null,
+                    formTitle = "",
+                    formAuthor = "",
+                    formStartDate = "",
+                    formEndDate = "",
+                    formStatus = BookStatus.IN_PROGRESS,
+                    formRating = BookRating.WORTH_VOTE
+                )
+            }
+            is BookListAction.OnEditBookClicked -> _uiState.update {
+                it.copy(
+                    isBookFormVisible = true,
+                    editingBook = action.book,
+                    formTitle = action.book.title,
+                    formAuthor = action.book.author,
+                    formStartDate = action.book.startDate ?: "",
+                    formEndDate = action.book.endDate ?: "",
+                    formStatus = action.book.status,
+                    formRating = action.book.rating
+                )
+            }
             is BookListAction.OnDeleteBookClicked -> deleteBook(action.book)
             is BookListAction.OnSaveBookClicked -> saveBook(action.book)
             is BookListAction.OnDismissForm -> _uiState.update { it.copy(isBookFormVisible = false, editingBook = null) }
+            is BookListAction.OnFormTitleChanged -> _uiState.update { it.copy(formTitle = action.title) }
+            is BookListAction.OnFormAuthorChanged -> _uiState.update { it.copy(formAuthor = action.author) }
+            is BookListAction.OnFormStartDateChanged -> _uiState.update {
+                it.copy(
+                    formStartDate = action.date,
+                    formEndDate = if (it.formEndDate.isNotBlank() && it.formEndDate < action.date) "" else it.formEndDate
+                )
+            }
+            is BookListAction.OnFormEndDateChanged -> _uiState.update { it.copy(formEndDate = action.date) }
+            is BookListAction.OnFormStatusChanged -> _uiState.update { it.copy(formStatus = action.status) }
+            is BookListAction.OnFormRatingChanged -> _uiState.update { it.copy(formRating = action.rating) }
             is BookListAction.OnBackupClicked -> _uiState.update { it.copy(isBackupDialogVisible = true) }
             is BookListAction.OnExportJsonClicked -> exportJson()
             is BookListAction.OnImportJsonClicked -> importJson(action.jsonString)
