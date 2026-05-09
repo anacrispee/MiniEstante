@@ -49,7 +49,7 @@ fun SortDropdown(
                 tint = MaterialTheme.colorScheme.onSurface
             )
             Text(
-                text = " ${selectedSort.label}",
+                text = " ${selectedSort.name}",
                 style = MaterialTheme.typography.labelMedium
             )
             Icon(
@@ -67,7 +67,7 @@ fun SortDropdown(
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = option.label,
+                            text = option.name,
                             style = MaterialTheme.typography.bodyMedium
                         )
                     },

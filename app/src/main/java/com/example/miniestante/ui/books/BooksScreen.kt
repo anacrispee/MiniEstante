@@ -18,9 +18,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.outlined.Archive
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -53,10 +56,9 @@ import com.example.miniestante.ui.components.BackupDialog
 import com.example.miniestante.ui.components.BookCard
 import com.example.miniestante.ui.components.BookFormBottomSheet
 import com.example.miniestante.ui.components.EmptyBooksState
-import com.example.miniestante.ui.components.RatingFilterChips
+import com.example.miniestante.ui.components.FilterBottomSheet
 import com.example.miniestante.ui.components.SearchBookField
-import com.example.miniestante.ui.components.SortDropdown
-import com.example.miniestante.ui.components.StatusFilterChips
+import com.example.miniestante.ui.components.SortBottomSheet
 import com.example.miniestante.ui.theme.MiniEstanteTheme
 import kotlinx.coroutines.launch
 
@@ -70,6 +72,8 @@ fun BooksScreen(viewModel: BookListViewModel) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     var bookToDelete by remember { mutableStateOf<Book?>(null) }
+    var showSortSheet by remember { mutableStateOf(false) }
+    var showFilterSheet by remember { mutableStateOf(false) }
 
     val errorReadFile = stringResource(R.string.snackbar_import_error_read)
     val successExport = stringResource(R.string.snackbar_export_success)
@@ -148,25 +152,13 @@ fun BooksScreen(viewModel: BookListViewModel) {
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onBackground
                 )
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    val count = uiState.books.size
-                    Text(
-                        text = if (count == 1) {
-                            stringResource(R.string.book_count_singular, count)
-                        } else {
-                            stringResource(R.string.book_count_plural, count)
-                        },
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                IconButton(onClick = { viewModel.onAction(BookListAction.OnBackupClicked) }) {
+                    Icon(
+                        imageVector = Icons.Outlined.Archive,
+                        contentDescription = stringResource(R.string.action_backup),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(24.dp)
                     )
-                    IconButton(onClick = { viewModel.onAction(BookListAction.OnBackupClicked) }) {
-                        Icon(
-                            imageVector = Icons.Outlined.Archive,
-                            contentDescription = stringResource(R.string.action_backup),
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
                 }
             }
 
@@ -179,26 +171,57 @@ fun BooksScreen(viewModel: BookListViewModel) {
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            StatusFilterChips(
-                selectedStatus = uiState.selectedStatusFilter,
-                onStatusSelected = { viewModel.onAction(BookListAction.OnStatusFilterSelected(it)) }
-            )
+            HorizontalDivider(color = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f))
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                RatingFilterChips(
-                    selectedRating = uiState.selectedRatingFilter,
-                    onRatingSelected = { viewModel.onAction(BookListAction.OnRatingFilterSelected(it)) },
-                    modifier = Modifier.weight(1f)
+                val count = uiState.filteredBooks.size
+                Text(
+                    text = if (count == 1) {
+                        stringResource(R.string.results_count_singular, count)
+                    } else {
+                        stringResource(R.string.results_count_plural, count)
+                    },
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                SortDropdown(
-                    selectedSort = uiState.selectedSortOption,
-                    onSortSelected = { viewModel.onAction(BookListAction.OnSortSelected(it)) }
-                )
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextButton(onClick = { showSortSheet = true }) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.Sort,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Text(
+                            text = " " + stringResource(R.string.action_sort),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                    TextButton(onClick = { showFilterSheet = true }) {
+                        Icon(
+                            imageVector = Icons.Default.Tune,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Text(
+                            text = " " + stringResource(R.string.action_filter),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -236,6 +259,30 @@ fun BooksScreen(viewModel: BookListViewModel) {
                 }
             }
         }
+    }
+
+    if (showSortSheet) {
+        SortBottomSheet(
+            selectedSort = uiState.selectedSortOption,
+            onSortSelected = { sort ->
+                viewModel.onAction(BookListAction.OnSortSelected(sort))
+                showSortSheet = false
+            },
+            onDismiss = { showSortSheet = false }
+        )
+    }
+
+    if (showFilterSheet) {
+        FilterBottomSheet(
+            selectedStatus = uiState.selectedStatusFilter,
+            selectedRating = uiState.selectedRatingFilter,
+            onApplyFilters = { status, rating ->
+                viewModel.onAction(BookListAction.OnStatusFilterSelected(status))
+                viewModel.onAction(BookListAction.OnRatingFilterSelected(rating))
+                showFilterSheet = false
+            },
+            onDismiss = { showFilterSheet = false }
+        )
     }
 
     if (uiState.isBookFormVisible) {

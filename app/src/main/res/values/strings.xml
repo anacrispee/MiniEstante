@@ -2,7 +2,7 @@
     <string name="app_name">Mini Estante</string>
 
     <!-- Screen titles -->
-    <string name="screen_title_books">Mini Estante</string>
+    <string name="screen_title_books">Meus Livros</string>
 
     <!-- Book form -->
     <string name="form_title_new_book">Novo livro</string>
@@ -47,7 +47,20 @@
 
     <!-- Filter chips -->
     <string name="filter_all_status">Todos</string>
-    <string name="filter_all_ratings">Todas avaliações</string>
+    <string name="filter_all_ratings">Todas</string>
+
+    <!-- Sort and filter actions -->
+    <string name="action_sort">Ordenar</string>
+    <string name="action_filter">Filtrar</string>
+    <string name="sort_title">Ordenar por</string>
+    <string name="sort_start_date">Data de início</string>
+    <string name="sort_end_date">Data de fim</string>
+    <string name="filter_title">Filtros</string>
+    <string name="filter_section_status">STATUS</string>
+    <string name="filter_section_rating">AVALIAÇÃO</string>
+    <string name="filter_see_results">Ver resultados</string>
+    <string name="results_count_singular">%d resultado</string>
+    <string name="results_count_plural">%d resultados</string>
 
     <!-- Empty state -->
     <string name="empty_state_title">Nenhum livro ainda</string>

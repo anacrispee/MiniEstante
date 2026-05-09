@@ -25,7 +25,8 @@ Exibir todos os livros cadastrados em uma lista scrollável, com contador, estad
 ## Regras de negócio
 
 - A lista exibe `filteredBooks` (resultado dos filtros ativos), não `books` diretamente
-- O contador no topo exibe o total de `books` (todos os livros), não o total filtrado
+- O contador de resultados exibe o total de `filteredBooks` (livros visíveis após filtros)
+- O contador aparece à esquerda, na mesma linha das ações "Ordenar" e "Filtrar"
 - A ordenação padrão é por `startDate` decrescente
 - Livros sem data ficam no final da lista
 - A exclusão requer confirmação via `AlertDialog`
@@ -66,6 +67,8 @@ Exibir todos os livros cadastrados em uma lista scrollável, com contador, estad
 - `AlertDialog` (Material3) — confirmação de exclusão
 - `SnackbarHost` — feedback de mensagens
 - `FloatingActionButton` — adicionar livro
+- `SortBottomSheet` — bottom sheet de ordenação
+- `FilterBottomSheet` — bottom sheet de filtros
 
 ## Modelo de dados relacionado
 
@@ -101,3 +104,7 @@ Exibir todos os livros cadastrados em uma lista scrollável, com contador, estad
 | 2026-05-07 | Criação da spec | Documentação inicial do MVP |
 | 2026-05-07 | Título da tela atualizado para "Mini Estante" | Refatoração: alinhamento com nome oficial do app e extração para `strings.xml` |
 | 2026-05-07 | Diferenciação de empty states (lista vs busca) | Melhoria de UX: evitar ambiguidade quando a busca não retorna resultados |
+| 2026-05-09 | Título da tela atualizado para "Meus Livros" | Alinhamento com telas de referência |
+| 2026-05-09 | Contador exibe total filtrado (não total geral) | Contador agora reflete resultados visíveis |
+| 2026-05-09 | Layout: contador + ações "Ordenar"/"Filtrar" na mesma linha | Reorganização visual conforme referência |
+| 2026-05-09 | Adição de SortBottomSheet e FilterBottomSheet | Substituição de chips inline e dropdown por bottom sheets |

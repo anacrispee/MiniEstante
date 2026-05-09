@@ -38,11 +38,14 @@ Permitir ao usuário encontrar livros rapidamente por texto, filtrar por status 
 
 - Digitar no campo de busca
 - Limpar o campo de busca
-- Tocar em chip de status
-- Tocar em chip de status já selecionado (remover filtro)
-- Tocar em chip de avaliação
-- Tocar em chip de avaliação já selecionado (remover filtro)
-- Selecionar opção no dropdown de ordenação
+- Tocar em "Ordenar" para abrir o bottom sheet de ordenação
+- Selecionar opção de ordenação no bottom sheet
+- Fechar bottom sheet de ordenação
+- Tocar em "Filtrar" para abrir o bottom sheet de filtros
+- Selecionar filtro de status no bottom sheet
+- Selecionar filtro de avaliação no bottom sheet
+- Tocar em "Ver resultados" para aplicar filtros
+- Fechar bottom sheet de filtros
 
 ## Comportamento esperado
 
@@ -50,20 +53,28 @@ Permitir ao usuário encontrar livros rapidamente por texto, filtrar por status 
 |--------|---------------|
 | Digitar na busca | `filteredBooks` atualiza em tempo real |
 | Limpar busca | Lista volta a mostrar todos os livros (com filtros ativos) |
-| Tocar em chip de status | Filtra lista pelo status; chip fica selecionado |
-| Tocar no chip de status selecionado | Remove filtro; todos os status são exibidos |
-| Tocar em chip de avaliação | Filtra lista pela avaliação; chip fica selecionado |
-| Tocar no chip de avaliação selecionado | Remove filtro; todas as avaliações são exibidas |
-| Selecionar ordenação "Início" | Lista ordenada por `startDate` decrescente |
-| Selecionar ordenação "Fim" | Lista ordenada por `endDate` decrescente |
+| Tocar em "Ordenar" | Abre bottom sheet com opções "Data de início" e "Data de fim" |
+| Selecionar ordenação | Aplica ordenação, fecha bottom sheet |
+| Tocar em "Filtrar" | Abre bottom sheet com seções STATUS e AVALIAÇÃO |
+| Selecionar filtro de status | Chip fica selecionado com check; seleção é local até confirmar |
+| Selecionar filtro de avaliação | Chip fica selecionado com check; seleção é local até confirmar |
+| Tocar em "Ver resultados" | Aplica filtros selecionados, fecha bottom sheet, lista atualiza |
+| Fechar bottom sheet sem confirmar | Filtros não são alterados |
+| Ordenação "Data de início" | Lista ordenada por `startDate` decrescente |
+| Ordenação "Data de fim" | Lista ordenada por `endDate` decrescente |
 
 ## Componentes Compose envolvidos
 
 - `SearchBookField` — campo de busca textual
-- `StatusFilterChips` — chips de filtro por status
-- `RatingFilterChips` — chips de filtro por avaliação
-- `SortDropdown` — dropdown de ordenação
+- `FilterBottomSheet` — bottom sheet com filtros de status e avaliação, com botão "Ver resultados"
+- `SortBottomSheet` — bottom sheet de ordenação com opções "Data de início" e "Data de fim"
 - `EmptyBooksState` — exibido quando `filteredBooks` está vazio
+
+### Componentes legados (mantidos para compatibilidade)
+
+- `StatusFilterChips` — chips de filtro por status (substituído por FilterBottomSheet na tela principal)
+- `RatingFilterChips` — chips de filtro por avaliação (substituído por FilterBottomSheet na tela principal)
+- `SortDropdown` — dropdown de ordenação (substituído por SortBottomSheet na tela principal)
 
 ## Modelo de dados relacionado
 
@@ -105,3 +116,6 @@ Permitir ao usuário encontrar livros rapidamente por texto, filtrar por status 
 |------|-----------|--------|
 | 2026-05-07 | Criação da spec | Documentação inicial do MVP |
 | 2026-05-07 | Feedback visual para busca sem resultados | Adição de mensagem específica "Nenhum resultado encontrado." |
+| 2026-05-09 | Filtros e ordenação movidos para bottom sheets | Alinhamento com telas de referência; melhor organização visual |
+| 2026-05-09 | Botão "Ver resultados" no bottom sheet de filtros | Filtros são aplicados apenas ao confirmar |
+| 2026-05-09 | Opções de ordenação renomeadas para "Data de início" / "Data de fim" | Clareza e consistência com referência visual |

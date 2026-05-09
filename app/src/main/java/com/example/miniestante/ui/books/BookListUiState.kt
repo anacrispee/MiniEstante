@@ -4,9 +4,9 @@ import com.example.miniestante.data.model.Book
 import com.example.miniestante.data.model.BookRating
 import com.example.miniestante.data.model.BookStatus
 
-enum class SortOption(val label: String) {
-    START_DATE("Início"),
-    END_DATE("Fim")
+enum class SortOption {
+    START_DATE,
+    END_DATE
 }
 
 data class BookListUiState(
