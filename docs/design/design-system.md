@@ -1,5 +1,33 @@
 # Design System — MiniEstante
 
+## Ícone e Splash Screen
+
+### Ícone do Launcher
+
+O ícone usa **adaptive icon** (API 26+) com:
+- **Foreground**: imagem rasterizada (`.webp`) da estante de livros em tons de laranja/marrom sobre fundo creme `#F5DDD0`
+- **Background**: cor definida em `@color/ic_launcher_background`
+- **Monochrome**: mesmo foreground para ícones monocromáticos (Material You)
+
+Arquivos:
+- `mipmap-*/ic_launcher_foreground.webp` — ícone da estante em múltiplas densidades
+- `mipmap-anydpi-v26/ic_launcher.xml` e `ic_launcher_round.xml` — adaptive icon config
+
+### Splash Screen
+
+Implementada via `androidx.core:core-splashscreen:1.0.1` (Splash Screen API oficial):
+- **Background**: `#F5DDD0` (mesma cor de fundo do ícone, uniforme em light e dark)
+- **Ícone**: `@drawable/ic_splash_icon` — imagem em alta resolução (1024x1024px com padding para safe zone) em `drawable-nodpi/`
+- **Tema**: `Theme.MiniEstante.Splash` aplicado na Activity via Manifest
+- **Chamada**: `installSplashScreen()` antes de `super.onCreate()`
+
+Notas técnicas:
+- A imagem da splash possui padding interno (~176px por lado) para caber na safe zone circular da Splash Screen API
+- A pasta `drawable-nodpi` evita escalonamento por densidade, preservando a qualidade original
+- A cor de fundo da splash (`#F5DDD0`) é idêntica ao fundo do ícone para transição visual uniforme
+
+A transição para a tela inicial ocorre automaticamente após o carregamento do Compose.
+
 ## Base
 
 O app usa **Material Design 3** via `androidx.compose.material3`. O tema é definido em `ui/theme/` e segue as convenções do Material You com suporte a dark mode.
