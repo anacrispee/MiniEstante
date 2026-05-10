@@ -99,12 +99,12 @@ UI (Compose) → Actions → ViewModel → Repository → Room (SQLite)
 
 ---
 
-## Spec-Driven Development
+## Spec-Driven Development com IA
 
-Este projeto segue a abordagem **Spec-Driven Development**: toda feature é especificada antes de ser implementada. As specs funcionam como fonte de verdade e checklist de desenvolvimento.
+Este projeto segue a abordagem **Spec-Driven Development assistido por IA**, utilizando o [Kiro](https://kiro.dev) como parceiro de desenvolvimento. Toda feature é especificada antes de ser implementada, com a IA auxiliando na criação de specs, validação de critérios e implementação guiada pela documentação.
 
 O fluxo é:
-1. Escrever a spec da feature
+1. Escrever a spec da feature (com assistência do Kiro)
 2. Implementar seguindo a spec
 3. Validar critérios de aceite
 4. Manter spec e código sincronizados
