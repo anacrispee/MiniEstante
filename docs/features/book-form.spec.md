@@ -101,6 +101,7 @@ Permitir ao usuário criar um novo livro ou editar um existente via formulário 
 - Campos de data não abrem o teclado — a entrada é feita exclusivamente via `DatePickerDialog`
 - Data de fim não pode ser anterior à data de início — o `DatePickerDialog` do campo "Fim" restringe a seleção via `minDate`; se o usuário alterar a data de início para depois da data de fim já selecionada, o campo "Fim" é limpo automaticamente
 - Trocar o tema do dispositivo (claro/escuro) durante a edição não perde os dados — o estado do formulário vive no `ViewModel`, que sobrevive a configuration changes
+- Dropdowns de status e avaliação devem abrir ancorados abaixo do campo correspondente — o `DropdownMenu` deve estar dentro de um `Box` que envolve também o `OutlinedButton`, garantindo que o popup use o `Box` como referência de posicionamento. Sem essa ancoragem, o menu abre no canto superior esquerdo da tela
 
 ## Histórico de alterações
 
@@ -109,3 +110,4 @@ Permitir ao usuário criar um novo livro ou editar um existente via formulário 
 | 2026-05-07 | Criação da spec | Documentação inicial do MVP |
 | 2026-05-07 | Esclarecimento sobre campos de data | Correção de bug: campos de data usam `DatePickerDialog`, não entrada manual via teclado. O `OutlinedTextField` usa `enabled=false` dentro de um `Box` com `clickable` para garantir que o toque seja capturado corretamente dentro do `ModalBottomSheet` |
 | 2026-05-07 | Validação de data de fim e preservação de estado | Data de fim não pode ser anterior à data de início. Estado do formulário movido para o `BookListUiState` para sobreviver a configuration changes (troca de tema, rotação de tela, etc.) |
+| 2026-05-09 | Correção de posicionamento dos dropdowns | `EnumDropdown` agora envolve `OutlinedButton` e `DropdownMenu` em um `Box`, ancorando o popup abaixo do campo correspondente. Sem o `Box`, o `DropdownMenu` não tinha referência de posição e abria no canto superior esquerdo da tela |

@@ -1,6 +1,7 @@
 package com.example.miniestante.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -237,48 +238,50 @@ private fun <T> EnumDropdown(
 ) {
     var expanded by remember { mutableStateOf(false) }
 
-    OutlinedButton(
-        onClick = { expanded = true },
-        shape = RoundedCornerShape(12.dp),
-        border = androidx.compose.foundation.BorderStroke(
-            1.dp,
-            MaterialTheme.colorScheme.outline
-        ),
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Text(
-            text = label(selected),
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.weight(1f)
-        )
-        Icon(
-            imageVector = Icons.Default.KeyboardArrowDown,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    }
-
-    DropdownMenu(
-        expanded = expanded,
-        onDismissRequest = { expanded = false }
-    ) {
-        options.forEach { option ->
-            DropdownMenuItem(
-                text = {
-                    Text(
-                        text = label(option),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                },
-                onClick = {
-                    onSelected(option)
-                    expanded = false
-                },
-                leadingIcon = if (option == selected) ({
-                    Text("✓", color = MaterialTheme.colorScheme.primary)
-                }) else null
+    Box(modifier = Modifier.fillMaxWidth()) {
+        OutlinedButton(
+            onClick = { expanded = true },
+            shape = RoundedCornerShape(12.dp),
+            border = androidx.compose.foundation.BorderStroke(
+                1.dp,
+                MaterialTheme.colorScheme.outline
+            ),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(
+                text = label(selected),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.weight(1f)
             )
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowDown,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            options.forEach { option ->
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            text = label(option),
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    },
+                    onClick = {
+                        onSelected(option)
+                        expanded = false
+                    },
+                    leadingIcon = if (option == selected) ({
+                        Text("✓", color = MaterialTheme.colorScheme.primary)
+                    }) else null
+                )
+            }
         }
     }
 }
