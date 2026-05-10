@@ -2,6 +2,8 @@
 
 Esta pasta é a **fonte de verdade** do projeto. Toda decisão de produto, design e implementação deve estar refletida aqui.
 
+> 📖 Para a apresentação geral do projeto, veja o [README principal](../README.md).
+
 ---
 
 ## Estrutura
@@ -35,8 +37,13 @@ docs/
 │   ├── filters-and-search.spec.md
 │   └── backup-restore.spec.md
 │
+├── assets/               # Imagens e screenshots do projeto
+│   ├── icon.png
+│   ├── screenshot-*.png
+│   └── screenshot-prototipo-lovable.png
+│
 ├── contributing-to-specs.md  # Regras para manter a documentação
-└── README.md                 # Este arquivo
+└── README.md                 # Este arquivo (índice da documentação interna)
 ```
 
 ---
