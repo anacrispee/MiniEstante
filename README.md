@@ -152,22 +152,3 @@ A documentação completa do projeto está organizada em `/docs`:
 | [ADRs](docs/decisions/) | Decisões arquiteturais |
 | [Specs de Features](docs/features/) | Especificações detalhadas |
 | [Contribuindo com Specs](docs/contributing-to-specs.md) | Regras de documentação |
-
----
-
-## Roadmap
-
-| Feature | Status |
-|---------|--------|
-| Estatísticas de leitura | Planejado |
-| Capas de livros | Planejado |
-| Integração com Google Books | Planejado |
-| Sincronização em nuvem | Planejado |
-| Metas de leitura | Planejado |
-| Tags personalizadas | Planejado |
-
----
-
-<p align="center">
-  Feito com ☕ e Kotlin
-</p>
