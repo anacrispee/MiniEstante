@@ -47,6 +47,8 @@ O objetivo é substituir cadernos, planilhas e apps genéricos por uma ferrament
   <img src="docs/assets/screenshot-lista-vazia.png" alt="Estado vazio" width="230" />
   &nbsp;&nbsp;
   <img src="docs/assets/screenshot-exclusao.png" alt="Exclusão" width="230" />
+  &nbsp;&nbsp;
+  <img src="docs/assets/screenshot-prototipo-lovable.png" alt="Ícone na home screen" width="230" />
 </p>
 
 ---
@@ -114,10 +116,6 @@ Toda a documentação de specs, decisões arquiteturais e design está em [`/doc
 ## Protótipo Inicial — Lovable
 
 O primeiro protótipo do MiniEstante foi criado no [Lovable](https://lovable.dev), uma plataforma de prototipagem rápida com IA. O protótipo serviu como base visual e funcional para validar a ideia antes de iniciar o desenvolvimento nativo em Android.
-
-<p align="center">
-  <img src="docs/assets/screenshot-prototipo-lovable.png" alt="Protótipo Lovable" width="280" />
-</p>
 
 🔗 **Acesse o protótipo:** [MiniEstante no Lovable](https://preview--readlist-design-kit.lovable.app/?__lovable_token=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiNkxZa0ZhZ25FUlJacWt4OXA4ZkNLUmxHVlhvMiIsInByb2plY3RfaWQiOiJjZDU0MGI0Ni1hM2ExLTQ1ZGUtODIyZC0zZTRkYWQxMGEwZTAiLCJhY2Nlc3NfdHlwZSI6InByb2plY3QiLCJpc3MiOiJsb3ZhYmxlLWFwaSIsInN1YiI6ImNkNTQwYjQ2LWEzYTEtNDVkZS04MjJkLTNlNGRhZDEwYTBlMCIsImF1ZCI6WyJsb3ZhYmxlLWFwcCJdLCJleHAiOjE3Nzg5NzU4MzUsIm5iZiI6MTc3ODM3MTAzNSwiaWF0IjoxNzc4MzcxMDM1fQ.jSvWLOJYYle_15yr00sKbrDA-FL6a8F5eysmVw_Cf2rm40PUqAFmal5sOdzSgMCXCaugx-rlqm6YSHHC2FxM9Rr3OOAnMS_lZ4c_jSdNGCzo5T9hXALRhbOb-Wk9RYwvuN9Q_r2rn4Bjl-2WC-AlnCRa1Gprz26JgZlvnoB6hzhWzi2yH2JYFOVbUwINOebSDIDc6FJNSQevkeEPwS-gG_NdQgRJGaZMiBO-yeLmaqcfNFb66W2-MTFfV5W7UPMN4vIhd1yyKR4EMDZ9egTnQWeM1asrHVQbCPzahg4ZIAT1iqp-xdi5hQ_2zQVRjyNbZub6rkWW9hve7nVbtXWCCmBzg1-45Oo79tra0yabX7hpLDDTV9ts_xCTSIWOpOTlwYdyL4dKRWB7TtnQ3Hj-AktTA0vZq8KQGpizvi-pvBuYkzBE0GBXs3RbEFeWtHhAfynBgSTh72oFe29B6S5MDihdjndi3TM_3OgsSbOXPxaYBHNle-TmQfuYGbvuilzhPKzwLG-rSYWcY7FOlZlqxoReEXb7KTtoXxjo9U4tk9s7a4NrElCTrge8uH3YCxhctTA2atLD7EJMnelmV0_5Uv-3YcEU6txi0tUB0Ma87VAjsoLj92AciGu4ACpQYBLKWpMHAK5u2qmdd197Hc0qeR0gLWX7vihYSxhzCoH1WSk)
 
